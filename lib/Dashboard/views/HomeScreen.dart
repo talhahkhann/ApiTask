@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:api_app/Dashboard/Data/api/api.dart';
 import 'package:api_app/Dashboard/views/UserDetail.dart';
 import 'package:api_app/Dashboard/views/widgets/reusablerow.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +11,6 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
-}
-
-var data;
-Future<void> getUserApi() async {
-  final response =
-      await http.get(Uri.parse('https://hp-api.onrender.com/api/characters'));
-  if (response.statusCode == 200) {
-    data = jsonDecode(response.body.toString());
-  } else {}
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -38,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Expanded(
                 child: FutureBuilder(
+                    //Api function fetch data
                     future: getUserApi(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -46,11 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         return ListView.builder(
                             itemCount: data.length,
                             itemBuilder: (context, index) {
+                              //OnTap make next screen call with data
                               return GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
+                                          //call data from api
+                                          //User Detail is constructor of next screen
                                           builder: (context) => UserDetail(
                                                 image: data[index]['image'],
                                                 name: data[index]['name'],
@@ -61,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Card(
                                   child: Column(
                                     children: [
+                                      // Widget use from reusable row file located in reusablerow
                                       ReusableRow(
                                           value: data[index]['name'].toString(),
                                           Placeholder: "Name"),

@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 class UserDetail extends StatelessWidget {
+  // constructor in order to get data from the HomeScreen
   final image;
   final name;
   final actorname;
@@ -35,6 +36,7 @@ class UserDetail extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 50,
+                // image is data come from api
                 backgroundImage: NetworkImage(image),
               ),
             ],
